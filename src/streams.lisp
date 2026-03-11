@@ -17,21 +17,15 @@
           (incf position))
         :eof)))
 
-(defmethod sb-gray:stream-read-sequence ((stream in-memory-input-stream) seq start end &key)
-  (with-slots (data position) stream
-    (let* ((available (- (length data) position))
-           (requested (- end start))
-           (to-read (min available requested)))
-      (replace seq data :start1 start :end1 (+ start to-read)
-                        :start2 position :end2 (+ position to-read))
-      (incf position to-read)
-      (+ start to-read))))
+;; Note: sequence reading is handled by the default implementation
+;; which uses stream-read-byte repeatedly. For better performance,
+;; users can call read-sequence directly on the data slot.
 
 (defmethod sb-gray:stream-listen ((stream in-memory-input-stream))
   (with-slots (data position) stream
     (< position (length data))))
 
-(defmethod sb-gray:stream-element-type ((stream in-memory-input-stream))
+(defmethod stream-element-type ((stream in-memory-input-stream))
   '(unsigned-byte 8))
 
 (defun make-in-memory-input-stream (sequence)
@@ -59,12 +53,10 @@
   (vector-push-extend byte (stream-data stream))
   byte)
 
-(defmethod sb-gray:stream-write-sequence ((stream in-memory-output-stream) seq start end &key)
-  (loop for i from start below end
-        do (vector-push-extend (aref seq i) (stream-data stream)))
-  seq)
+;; Note: sequence writing is handled by the default implementation
+;; which uses stream-write-byte repeatedly.
 
-(defmethod sb-gray:stream-element-type ((stream in-memory-output-stream))
+(defmethod stream-element-type ((stream in-memory-output-stream))
   '(unsigned-byte 8))
 
 (defun make-in-memory-output-stream ()
