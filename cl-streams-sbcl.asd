@@ -6,13 +6,16 @@
 
 (asdf:defsystem #:cl-streams-sbcl
   :description "Flexible binary/character streams for SBCL"
-  :author "Parkian Company LLC"
+  :author "Park Ian Co"
   :license "Apache-2.0"
   :version "0.1.0"
   :serial t
   :components ((:file "package")
                (:module "src"
-                :components ((:file "streams")))))
+                :components ((:file "package")
+                             (:file "conditions" :depends-on ("package"))
+                             (:file "types" :depends-on ("package"))
+                             (:file "cl-streams-sbcl" :depends-on ("package" "conditions" "types")))))))
 
 (asdf:defsystem #:cl-streams-sbcl/test
   :description "Tests for cl-streams-sbcl"
