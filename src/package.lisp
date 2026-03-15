@@ -8,6 +8,8 @@
   (:use #:cl)
   (:nicknames #:streams-sbcl)
   (:export
+   #:deep-copy-list
+   #:group-by-count
    #:identity-list
    #:flatten
    #:map-keys
