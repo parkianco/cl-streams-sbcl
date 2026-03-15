@@ -8,7 +8,11 @@
   (:use #:cl)
   (:nicknames #:streams-sbcl)
   (:export
-   #:with-streams-sbcl-timing
+   #:identity-list
+   #:flatten
+   #:map-keys
+   #:now-timestamp
+#:with-streams-sbcl-timing
    #:streams-sbcl-batch-process
    #:streams-sbcl-health-check;; Input streams
    #:make-in-memory-input-stream
